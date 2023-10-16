@@ -65,8 +65,6 @@ public class Deck {
 				deck.add(c4);
 			}
 		}
-		
-		System.out.println(deck.size());
 	}
 	
 	public static void shuffleDeck() {
