@@ -3,13 +3,14 @@ import java.util.ArrayList;
 public abstract class CardPlayer {
 	// regular variables and methods
 	private String name;
-	private ArrayList<String[]> hand;
-	private ArrayList<String[]> aces;
+	private ArrayList<Integer> hand;
+	private ArrayList<Integer> aces;
 	
 	public CardPlayer(String name){
+		// initialize object variables
 		this.name = name;
-		this.hand = new ArrayList<String[]>();
-		this.aces = new ArrayList<String[]>();
+		this.hand = new ArrayList<Integer>();
+		this.aces = new ArrayList<Integer>();
 	}
 	
 	public String getName() {
@@ -21,18 +22,7 @@ public abstract class CardPlayer {
 		
 		// calculate normal cards
 		for (int i = 0; i < hand.size(); i++) {
-			if(hand.get(i)[0].equals("J")) {
-				value += 10;
-			}
-			else if(hand.get(i)[0].equals("Q")) {
-				value += 10;
-			}
-			else if(hand.get(i)[0].equals("K")) {
-				value += 10;
-			}
-			else {
-				value = value + Integer.parseInt(hand.get(i)[0]);
-			}
+			value = value + Deck.getValueById(hand.get(i));
 		}
 		
 		// calculate aces
@@ -47,18 +37,19 @@ public abstract class CardPlayer {
 			}
 		}
 		
-		
 		return value;
 	}
 	
 	public void hit() {
-		String[] card = Deck.getTopCard();
+		// get card Id
+		int cardId = Deck.getTopCard();
 		
-		if (card[0].equals("A")) {
-			aces.add(card);
+		// add card to hand if normal card, add to aces if ace
+		if (cardId <= 4) {
+			aces.add(cardId);
 		}
 		else {
-			hand.add(card);
+			hand.add(cardId);
 		}
 	}
 	
@@ -71,18 +62,20 @@ public abstract class CardPlayer {
 	}
 	
 	public void printHand() {
+		// output player's hand
 		System.out.print(this.getName() + "'s hand: ");
 		for (int i = 0; i < hand.size(); i++) {
-			System.out.print(hand.get(i)[0] + "" + hand.get(i)[1] + " ");
+			System.out.print(Deck.getCardStringById(hand.get(i)) + " ");
 		}
 		for (int i = 0; i < aces.size(); i++) {
-			System.out.print(aces.get(i)[0] + "" + aces.get(i)[1] + " ");
+			System.out.print(Deck.getCardStringById(aces.get(i)) + " ");
 		}
 		
 		System.out.print(" [Value: " + this.getValue() + "]\n");
 	}
 	
 	public void clearHand() {
+		// reset hand
 		hand.clear();
 		aces.clear();
 	}

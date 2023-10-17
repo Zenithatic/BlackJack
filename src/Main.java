@@ -59,7 +59,6 @@ public class Main {
 		Deck.printDeck();
 		Deck.shuffleDeck();
 		
-		
 		// game loop
 		gameloop: while (player.getMoney() > 0) {
 			// Step 18 of assignment		
