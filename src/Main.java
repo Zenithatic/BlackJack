@@ -103,9 +103,6 @@ public class Main {
 			if (player.getValue() == 21) {
 				System.out.println("Blackjack! " + name + " has 21!");
 			}
-			if (bot.getValue() == 21) {
-				System.out.println("Blackjack! " + bot.getName() + " has 21!");
-			}
 			
 			// User gameplay
 			while (true) {
