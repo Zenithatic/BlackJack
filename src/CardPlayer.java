@@ -83,4 +83,6 @@ public abstract class CardPlayer {
 	
 	// abstract methods
 	public abstract void greeting();	
+	
+	public abstract boolean wantToHit();
 }

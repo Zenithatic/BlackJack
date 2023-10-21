@@ -20,4 +20,9 @@ public class UserPlayer extends CardPlayer{
 	public void greeting() {
 		System.out.println("My name is " + this.getName() + ".");
 	}
+
+	@Override
+	public boolean wantToHit() {
+		return false;
+	}
 }

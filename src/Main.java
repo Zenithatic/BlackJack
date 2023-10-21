@@ -118,7 +118,7 @@ public class Main {
 						
 						player.changeMoney(-wager);
 						
-						if (continuePlaying(player)) {
+						if (continuePlaying(player, bot)) {
 							continue gameloop;
 						}
 						else {
@@ -132,7 +132,7 @@ public class Main {
 							System.out.println(name + " reached 5 cards without busting. They win!");
 							
 							player.changeMoney(wager);
-							if (continuePlaying(player)) {
+							if (continuePlaying(player, bot)) {
 								continue gameloop;
 							}
 							else {
@@ -152,80 +152,29 @@ public class Main {
 			
 			// bot gameplay
 			while (true) {
-				if (bot.getName().equals("Joe")) {
-					if (bot.getValue() <= 16) {
-						bot.hit();
-						bot.tellJoke();
-						System.out.println(bot.getName() + " hit!");
-						bot.printHand();
+				if (bot.wantToHit()) {
+					bot.hit();
+					System.out.println(bot.getName() + " hit!");
+					bot.printHand();
+					
+					if (bot.getValue() > 21) {
+						System.out.println(bot.getName() + " busted! " + name + " wins.");
+						player.changeMoney(wager);
+						player.tellJoke();
 						
-						if (bot.getValue() > 21) {
-							System.out.println(bot.getName() + " busted! " + name + " wins.");
-							player.changeMoney(wager);
-							player.tellJoke();
-							
-							if (continuePlaying(player)) {
-								continue gameloop;
-							}
-							else {
-								break gameloop;
-							}
+						if (continuePlaying(player, bot)) {
+							continue gameloop;
 						}
-					}
-					else {
-						System.out.println(bot.getName() + " stands.");
-						break;
-					}
-				}
-				else if (bot.getName().equals("Max")) {
-					if (bot.getValue() <= 17) {
-						bot.hit();
-						System.out.println(bot.getName() + " hit!");
-						bot.printHand();
-						
-						if (bot.getValue() > 21) {
-							System.out.println(bot.getName() + " busted! " + name + " wins.");
-							player.changeMoney(wager);
-							player.tellJoke();
-							
-							if (continuePlaying(player)) {
-								continue gameloop;
-							}
-							else {
-								break gameloop;
-							}
+						else {
+							break gameloop;
 						}
-					}
-					else {
-						System.out.println(bot.getName() + " stands.");
-						break;
 					}
 				}
 				else {
-					if (bot.getValue() <= 16) {
-						bot.hit();
-						System.out.println(bot.getName() + " hit!");
-						bot.printHand();
-						
-						if (bot.getValue() > 21) {
-							System.out.println(bot.getName() + " busted! " + name + " wins.");
-							player.changeMoney(wager);
-							player.tellJoke();
-							
-							if (continuePlaying(player)) {
-								continue gameloop;
-							}
-							else {
-								break gameloop;
-							}
-						}
-					}
-					else {
-						System.out.println(bot.getName() + " stands.");
-						break;
-					}
+					System.out.println(bot.getName() + " stands.");
+					break;
 				}
-			}
+			}	
 			
 			// Determine who wins if both stand
 			
@@ -236,7 +185,7 @@ public class Main {
 			if (player.getValue() == bot.getValue()) {
 				System.out.println("Tie. Nobody wins.");
 				
-				if (continuePlaying(player)) {
+				if (continuePlaying(player, bot)) {
 					continue gameloop;
 				}
 				else {
@@ -248,7 +197,7 @@ public class Main {
 				player.tellJoke();
 				player.changeMoney(wager);
 				
-				if (continuePlaying(player)) {
+				if (continuePlaying(player, bot)) {
 					continue gameloop;
 				}
 				else {
@@ -260,7 +209,7 @@ public class Main {
 				bot.tellJoke();
 				player.changeMoney(-wager);
 				
-				if (continuePlaying(player)) {
+				if (continuePlaying(player, bot)) {
 					continue gameloop;
 				}
 				else {
@@ -278,7 +227,11 @@ public class Main {
 		input.close();
 	}
 	
-	public static boolean continuePlaying(UserPlayer player) {
+	public static boolean continuePlaying(UserPlayer player, CardPlayer bot) {
+		System.out.println("\nResults\n----------------------------");
+		player.printHand();
+		bot.printHand();
+		
 		System.out.println("\nPress anything to continue playing, press N to stop playing:");
 		String choice = input.nextLine().toUpperCase();
 		
