@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,12 +13,13 @@ public class Jokes {
 		// Load jokes from file
 		try {
 			jokes = new ArrayList<String>();
-			Scanner scanner = new Scanner(new File("Jokes.txt"));
-			while (scanner.hasNext()) {
-				jokes.add(scanner.nextLine());
+			BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("Jokes.txt")));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				jokes.add(line);
 			}
 		}catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	};
 	
